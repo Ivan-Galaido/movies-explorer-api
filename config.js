@@ -10,6 +10,8 @@ const whitelist = [
   'https://localhost:3000',
   'http://localhost:3001',
   'https://localhost:3001',
+  'https://movies-ex.nomoredomains.club',
+  'http://api.movies-ex.students.nomoredomains.club',
 ];
 const corsOptions = {
   origin(origin, callback) {
