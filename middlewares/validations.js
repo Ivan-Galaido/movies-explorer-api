@@ -43,7 +43,11 @@ const validateUserUpdate = celebrate({
       .messages({
         'string.email': 'Не верно указан адрес "email".',
       }),
-  }).unknown(true),
+  }),
+  query: Joi.object()
+      .keys({
+        _id: Joi.string().length(24),
+      }).unknown(true),
 });
 
 const validateMovieBody = celebrate({
