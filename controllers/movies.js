@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Movie = require('../models/movie');
 const NotFoundErr = require('../errors/not-found-err');
+const Forbidden = require('../errors/forbidden');
 
 const getUserMovies = (req, res, next) => {
   Movie.find({ owner: req.user._id })
@@ -60,13 +61,21 @@ const deleteMovie = (req, res, next) => {
     _id: req.params.movieId,
     owner: req.user._id,
   }).populate('owner')
-    .orFail(() => {
-      throw new NotFoundErr('Нет фильма с таким id');
-    })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch(next);
+  .orFail()
+  .then((movie) => {
+    if (String(movie.owner) === req.user._id) {
+      return movie;
+    }
+    return next(new ForbiddenError('Нельзя удалять чужие фильмы'));
+  })
+  .then((movie) => movie.remove().then((movieRemoved) => res.send(movieRemoved)))
+  .catch((err) => {
+    if (err.name === 'DocumentNotFoundError') {
+      next(new NotFoundError(`Фильм с указанным ${req.params.movieId} не найден`));
+    } else {
+      next(err);
+    }
+  });
 };
 
 module.exports = {
