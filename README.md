@@ -1,6 +1,6 @@
 # "Movies explorer" (бэкенд)
 
-https://api.movies-ex.students.nomoredomains.club
+https://api.movies-ex.students.nomoredomains.monster
 
 Public IP 178.154.246.61
 
