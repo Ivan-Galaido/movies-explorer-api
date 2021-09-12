@@ -4,6 +4,7 @@ const User = require('../models/user');
 const NotFoundErr = require('../errors/not-found-err');
 const ConflictingRequest = require('../errors/conflicting-request');
 const Unauthorized = require('../errors/unauthorized');
+const BadRequest = require('../errors/bad-request');
 
 const createUser = (req, res, next) => {
   const { email, password, name } = req.body;
@@ -45,7 +46,7 @@ const login = (req, res, next) => {
       );
       res.send({ token });
     })
-    .catch((err) => next(new Unauthorized(err.message)));
+    .catch((err) => next(new Unauthorized('err.message')));
 };
 const logout = (req, res) => {
   res.clearCookie('jwt').send({ success: true });
@@ -61,7 +62,7 @@ const updateUserInfo = (req, res, next) => {
   User.findOne({ email })
     .then((foundData) => {
       if (foundData && foundData._id.toString() !== req.user._id.toString()) {
-        throw new ConflictingRequest('Пользователь с таким E-mail уже существует.');
+        throw new BadRequest('Пользователь с таким E-mail уже существует.');
       }
       return User.findById(req.user._id)
         .then((oldData) => User.findByIdAndUpdate(
