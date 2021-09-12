@@ -66,12 +66,12 @@ const deleteMovie = (req, res, next) => {
     if (String(movie.owner) === req.user._id) {
       return movie;
     }
-    return next(new ForbiddenError('Нельзя удалять чужие фильмы'));
+    return next(new Forbidden('Нельзя удалять чужие фильмы'));
   })
   .then((movie) => movie.remove().then((movieRemoved) => res.send(movieRemoved)))
   .catch((err) => {
     if (err.name === 'DocumentNotFoundError') {
-      next(new NotFoundError(`Фильм с указанным ${req.params.movieId} не найден`));
+      next(new NotFoundErr(`Фильм с указанным ${req.params.movieId} не найден`));
     } else {
       next(err);
     }
