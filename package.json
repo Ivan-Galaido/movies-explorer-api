@@ -4,6 +4,7 @@
   "description": "Back-end дипломного проекта Я.Практикум",
   "main": "index.js",
   "scripts": {
+    "lint": "npx eslint .",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
