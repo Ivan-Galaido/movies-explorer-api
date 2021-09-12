@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundErr = require('../errors/not-found-err');
 const ConflictingRequest = require('../errors/conflicting-request');
+const Unauthorized = require('../errors/unauthorized');
 
 const createUser = (req, res, next) => {
   const { email, password, name } = req.body;
@@ -42,12 +43,9 @@ const login = (req, res, next) => {
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
-      res.cookie('jwt', `Bearer ${token}`, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-      }).send(user);
+      res.send({ token });
     })
-    .catch(next);
+    .catch((err) => next(new Unauthorized(err.message)));
 };
 const logout = (req, res) => {
   res.clearCookie('jwt').send({ success: true });
