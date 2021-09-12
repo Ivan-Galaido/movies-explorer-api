@@ -48,7 +48,7 @@ const login = (req, res, next) => {
         httpOnly: true,
       }).send(user);
     })
-    .catch((next) => next(new Unauthorized('Ошибка авторизации')));
+    .catch(() => next(new Unauthorized('Ошибка авторизации')));
 };
 const logout = (req, res) => {
   res.clearCookie('jwt').send({ success: true });
