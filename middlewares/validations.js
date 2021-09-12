@@ -34,20 +34,16 @@ const validateUserCreate = celebrate({
 
 const validateUserUpdate = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30)
+    name: Joi.string().required().min(2).max(30)
       .messages({
         'string.min': 'Минимальная длинная поля "name" - 2',
         'string.max': 'Максимальная длинная поля "name" - 30',
       }),
-    email: Joi.string().email()
+    email: Joi.string().required().email()
       .messages({
         'string.email': 'Не верно указан адрес "email".',
       }),
-  }),
-  query: Joi.object()
-      .keys({
-        _id: Joi.string().length(24),
-      }).unknown(true),
+  }).unknown(true),
 });
 
 const validateMovieBody = celebrate({
