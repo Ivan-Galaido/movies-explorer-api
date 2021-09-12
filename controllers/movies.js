@@ -70,7 +70,7 @@ const deleteMovie = (req, res, next) => {
   })
   .then((movie) => movie.remove().then((movieRemoved) => res.send(movieRemoved)))
   .catch((err) => {
-    if (err.name === 'DocumentNotFoundError') {
+    if (err.name === 'DocumentNotFoundErr') {
       next(new NotFoundErr(`Фильм с указанным ${req.params.movieId} не найден`));
     } else {
       next(err);
