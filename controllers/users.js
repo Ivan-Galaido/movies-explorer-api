@@ -4,7 +4,6 @@ const User = require('../models/user');
 const NotFoundErr = require('../errors/not-found-err');
 const ConflictingRequest = require('../errors/conflicting-request');
 const Unauthorized = require('../errors/unauthorized');
-const BadRequest = require('../errors/bad-request');
 
 const createUser = (req, res, next) => {
   const { email, password, name } = req.body;
@@ -65,7 +64,7 @@ const updateUserInfo = (req, res, next) => {
   User.findOne({ email })
     .then((foundData) => {
       if (foundData && foundData._id.toString() !== req.user._id.toString()) {
-        throw new BadRequest('Пользователь с таким E-mail уже существует.');
+        throw new ConflictingRequest('Пользователь с таким E-mail уже существует.');
       }
       return User.findById(req.user._id)
         .then((oldData) => User.findByIdAndUpdate(
