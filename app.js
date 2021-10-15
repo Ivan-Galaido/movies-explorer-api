@@ -24,15 +24,19 @@ mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
-app.use(cors({
-  origin: true,
-  exposedHeaders: '*',
-  credentials: true,
-}));
+// Массив разешённых доменов
+const allowedCors = [
+  'https://movies-ex.nomoredomains.club',
+  'http://api.movies-ex.students.nomoredomains.club',
+  'localhost:3000'
+];
+
 app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'https://praktikum.tk');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+  const { origin } = req.headers; // Записываем в переменную origin соответствующий заголовок
+
+  if (allowedCors.includes(origin)) { // Проверяем, что значение origin есть среди разрешённых доменов
+    res.header('Access-Control-Allow-Origin', origin);
+  }
 
   next();
 });
