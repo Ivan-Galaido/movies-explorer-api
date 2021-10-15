@@ -21,6 +21,7 @@ mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27
   useUnifiedTopology: true,
 });
 
+Access-Control-Allow-Origin: *
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
