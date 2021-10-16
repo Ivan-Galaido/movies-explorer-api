@@ -5,7 +5,7 @@ const limiter = rateLimit({
   max: 100,
 });
 
-const allowedCors = [
+const whitelist = [
   'http://localhost:3000',
   'https://localhost:3000',
   'http://localhost:3001',
@@ -13,8 +13,19 @@ const allowedCors = [
   'https://movies-ex.nomoredomains.club',
   'http://movies-ex.nomoredomains.club',
 ];
+const corsOptions = {
+  origin(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
 
 module.exports = {
   limiter,
-  allowedCors,
+  corsOptions,
 };
