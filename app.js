@@ -24,19 +24,7 @@ mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
-app.use (function (req, res, next) {
-  res.header ("Access-Control-Allow-Origin", "ВАШ-ДОМЕН.TLD"); // обновляем в соответствии с доменом, из которого вы будете делать запрос
-  res.header ("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  следующий();
-});
-
-app.get ('/', function (req, res, next) {
-  // Обрабатываем получение для этого маршрута
-});
-
-app.post ('/', function (req, res, next) {
- // Обрабатываем пост для этого маршрута
-});
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
