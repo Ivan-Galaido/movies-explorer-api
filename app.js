@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
-const { limiter } = require('./config');
+const { limiter, corsOptions } = require('./config');
 const routes = require('./routes');
 const errorHeandler = require('./middlewares/error-heandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -20,29 +20,11 @@ mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
-const allowedCors = [
-  'http://localhost:3000',
-  'https://localhost:3000',
-  'http://localhost:3001',
-  'https://localhost:3001',
-  'https://movies-ex.nomoredomains.club',
-  'http://movies-ex.nomoredomains.club',
-];
-app.use(cors());
 
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  next();
-});
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
-app.options('*', cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
