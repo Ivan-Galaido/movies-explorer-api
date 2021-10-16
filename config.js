@@ -1,8 +1,8 @@
 const rateLimit = require('express-rate-limit');
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
+  windowMs: 15 * 60 * 1000, // за 15 минут
+  max: 100, // можно совершить максимум 100 запросов с одного IP
 });
 
 const whitelist = [
@@ -10,8 +10,8 @@ const whitelist = [
   'https://localhost:3000',
   'http://localhost:3001',
   'https://localhost:3001',
-  'https://movies-ex.nomoredomains.club',
-  'http://movies-ex.nomoredomains.club',
+  'https://movies-explorer.students.nomoredomains.monster',
+  'http://movies-explorer.students.nomoredomains.monster',
 ];
 const corsOptions = {
   origin(origin, callback) {
