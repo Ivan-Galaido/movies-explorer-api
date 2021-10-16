@@ -24,20 +24,7 @@ mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
-const allowedCors = [
-  'https://api.movies-ex.students.nomoredomains.club',
-  'http://movies-ex.nomoredomains.club',
-  'localhost:3000'
-];
-
-app.use(function(req, res, next) {
-  const { origin } = req.headers; 
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  next();
-}); 
+Header set Access-Control-Allow-Origin "*";
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
