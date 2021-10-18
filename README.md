@@ -2,7 +2,7 @@
 
 https://api.movies-ex.students.nomoredomains.club
 
-Public IP 178.154.246.61
+Public IP 178.154.240.141
 
 ## Запуск проекта
 
