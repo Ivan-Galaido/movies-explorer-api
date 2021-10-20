@@ -29,7 +29,9 @@ const createUser = (req, res, next) => {
       res.cookie('jwt', `Bearer ${token}`, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-      }).send({ email: data.email, name: data.name });
+        sameSite: 'None',
+        secure: true,
+}).send({ email: data.email, name: data.name });
     })
     .catch(next);
 };
