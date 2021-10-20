@@ -23,7 +23,7 @@ mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27
 
 app.use(requestLogger);
 app.use(limiter);
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
