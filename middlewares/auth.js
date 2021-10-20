@@ -1,6 +1,7 @@
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET = DEV_JWT_SECRET } = process.env;
 const jwt = require('jsonwebtoken');
 const Unauthorized = require('../errors/unauthorized');
+const DEV_JWT_SECRET = 'dev-secret';
 
  const auth = (req, res, next) => {
   if (!req.cookies.jwt) {
