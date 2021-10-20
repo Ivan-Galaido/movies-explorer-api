@@ -48,7 +48,9 @@ const login = (req, res, next) => {
       res.cookie('jwt', `Bearer ${token}`, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-      }).send(user);
+        sameSite: 'None',
+        secure: true,
+}).send(user);
     })
     .catch(() => next(new Unauthorized('Ошибка авторизации')));
 };
